@@ -124,9 +124,46 @@ reviews
 ```
 
 
+# API's
+Dataset for annual water consumption in NYC, along with the population in that year.
+```{r}
+#requests a .csv file from a server
+water_df = 
+  GET("https://data.cityofnewyork.us/resource/ia2d-e54m.csv") %>% 
+  content("parsed")
+```
 
+Now lets see what JSON looks like!
+#JSON
+```{r}
+water_df = 
+  GET("https://data.cityofnewyork.us/resource/ia2d-e54m.json") %>% 
+  content("text") %>% 
+  jsonlite::fromJSON() %>% 
+  as_tibble()
 
+water_df
+```
 
+# BRFSS Data Example 
+```{r}
+brfss_df = 
+  GET("https://chronicdata.cdc.gov/resource/acme-vg9e.csv",
+      query = list("$limit" = 5000)) %>% 
+  content()
 
+brfss_df
+# note: this only gives us 1k rows of data by default; we can change the query to ask for 5k rows of data instead 
+```
 
+> API's are really useful! :) 
 
+```{r}
+poke_data = 
+  GET("http://pokeapi.co/api/v2/pokemon/1") %>% 
+  content()
+
+poke_data[["name"]]
+poke_data[["height"]]
+poke_data[["abilities"]]
+```
